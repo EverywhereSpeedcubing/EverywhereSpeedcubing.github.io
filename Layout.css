@@ -1,0 +1,52 @@
+/* Padding and borders stay inside the size of every element. */
+* {
+    box-sizing: border-box;
+}
+
+/* Page arrangement: header on top, timer in the middle. */
+body {
+    margin: 0;
+    padding: 24px 16px;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header 1 alignment. */
+.header1 {
+    text-align: center;
+    width: 100%;
+    max-width: 720px;
+    padding: 16px 0;
+}
+
+/* Header 1 text spacing. */
+.headers {
+    margin: 0;
+}
+
+/* Timer alignment. */
+.timer {
+    text-align: center;
+    flex: 1;
+    width: 100%;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+}
+
+/* Timer number spacing. */
+#timer {
+    margin: 0;
+}
+
+/* Timer button size. */
+#timerbutton {
+    min-width: 168px;
+    padding: 14px 36px;
+}
