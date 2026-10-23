@@ -24,6 +24,7 @@ function timerCode() {
         String(hundredths).padStart(2, "0");
     }, 10);
     timerButton.textContent = "Stop";
+    newScramble();
   } else {
     clearInterval(intervalId);
     intervalId = null;
