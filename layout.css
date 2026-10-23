@@ -1,0 +1,75 @@
+/* Padding and borders stay inside the size of every element. */
+* {
+    box-sizing: border-box;
+}
+
+/* Page arrangement: header on top, scramble below it, timer in the middle. */
+body {
+    margin: 0;
+    padding: 24px 16px;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header 1 alignment. */
+.header1 {
+    text-align: center;
+    width: 100%;
+    max-width: 720px;
+    padding: 16px 0;
+}
+
+/* Header 1 text spacing. */
+.headers {
+    margin: 0;
+}
+
+/* Scramble alignment. */
+.scramble {
+    text-align: center;
+    width: 100%;
+    max-width: 640px;
+    padding: 8px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Scramble text spacing. Keeps room for two lines so the page does not jump. */
+#scramble {
+    margin: 0;
+    min-height: 3.4em;
+}
+
+/* Scramble button size. */
+#scramblebutton {
+    padding: 10px 28px;
+}
+
+/* Timer alignment. */
+.timer {
+    text-align: center;
+    flex: 1;
+    width: 100%;
+    max-width: 720px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+}
+
+/* Timer number spacing. */
+#timer {
+    margin: 0;
+}
+
+/* Timer button size. */
+#timerbutton {
+    min-width: 168px;
+    padding: 14px 36px;
+}

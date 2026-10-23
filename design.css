@@ -1,0 +1,100 @@
+/* Main colors of the website. */
+:root {
+    --mint: #cfefdc;
+    --green-dark: #12382a;
+    --green: #1f7a4a;
+    --green-hover: #17613a;
+    --green-text: #17613a;
+}
+
+/* Page background, text color, and font. */
+body {
+    background-color: var(--mint);
+    color: var(--green-dark);
+    font-family: ui-rounded, "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Header 1 text style. */
+.headers {
+    font-size: clamp(1.75rem, 5vw, 2.75rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* Scramble text style. */
+#scramble {
+    font-size: clamp(1.25rem, 4vw, 1.75rem);
+    font-weight: 600;
+    line-height: 1.7;
+    word-spacing: 0.4em;
+    text-wrap: balance;
+}
+
+/* Scramble button style. */
+#scramblebutton {
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--green-text);
+    background-color: transparent;
+    border: 2px solid var(--green-text);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, transform 0.1s;
+}
+
+/* Scramble button color when the mouse is on it. Not used on touch screens. */
+@media (hover: hover) {
+    #scramblebutton:hover {
+        background-color: var(--green-text);
+        color: #ffffff;
+    }
+}
+
+/* Scramble button press effect. */
+#scramblebutton:active {
+    transform: scale(0.97);
+}
+
+/* Scramble button outline when using the keyboard. */
+#scramblebutton:focus-visible {
+    outline: 3px solid var(--green-dark);
+    outline-offset: 3px;
+}
+
+/* Timer number style. */
+#timer {
+    font-size: clamp(3rem, 15vw, 8rem);
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+/* Timer button style. */
+#timerbutton {
+    font-family: inherit;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: var(--green);
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+/* Timer button color when the mouse is on it. */
+#timerbutton:hover {
+    background-color: var(--green-hover);
+}
+
+/* Timer button press effect. */
+#timerbutton:active {
+    transform: scale(0.97);
+}
+
+/* Timer button outline when using the keyboard. */
+#timerbutton:focus-visible {
+    outline: 3px solid var(--green-dark);
+    outline-offset: 3px;
+}
