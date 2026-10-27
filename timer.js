@@ -7,7 +7,7 @@ let intervalId = null;
 function timerCode() {
   timerButton.blur();
   if (intervalId === null) {
-    timerDisplay.textContent = "00:00.00";
+    timerDisplay.textContent = "0.00";
     startTime = Date.now();
     intervalId = setInterval(function () {
       let elapsedMs = Date.now() - startTime;
@@ -16,16 +16,23 @@ function timerCode() {
       let seconds = totalSeconds % 60;
       let leftoverMs = elapsedMs % 1000;
       let hundredths = Math.floor(leftoverMs / 10);
-      timerDisplay.textContent =
-        String(minutes).padStart(2, "0") +
-        ":" +
-        String(seconds).padStart(2, "0") +
-        "." +
-        String(hundredths).padStart(2, "0");
+      if (minutes >= 1) {
+        timerDisplay.textContent =
+          String(minutes).padStart(2) +
+          ":" +
+          String(seconds).padStart(2, 0) +
+          "." +
+          String(hundredths).padStart(2, 0);
+      } else {
+        timerDisplay.textContent =
+          String(seconds).padStart(2) + "." + String(hundredths).padStart(2, 0);
+      }
     }, 10);
     timerButton.textContent = "Stop";
-    newScramble();
   } else {
+    timeReceiver = Date.now() - startTime; // Copying the time.
+    timesManager();
+    newScramble();
     clearInterval(intervalId);
     intervalId = null;
     timerButton.textContent = "Start";
