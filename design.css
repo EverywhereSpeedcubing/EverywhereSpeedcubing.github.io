@@ -1,10 +1,12 @@
 /* Main colors of the website. */
 :root {
     --mint: #cfefdc;
+    --mint-light: #e5f6ec;
     --green-dark: #12382a;
     --green: #1f7a4a;
     --green-hover: #17613a;
     --green-text: #17613a;
+    --green-soft: #2f7050;
 }
 
 /* Page background, text color, and font. */
@@ -64,7 +66,7 @@ body {
 
 /* Timer number style. */
 #timer {
-    font-size: clamp(3rem, 15vw, 8rem);
+    font-size: clamp(3rem, min(15vw, 14vh), 8rem);
     font-weight: 600;
     line-height: 1;
     font-variant-numeric: tabular-nums;
@@ -97,4 +99,46 @@ body {
 #timerbutton:focus-visible {
     outline: 3px solid var(--green-dark);
     outline-offset: 3px;
+}
+
+/* Session boxes style. Quiet, so the timer stays the star. */
+.session p {
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+    background-color: var(--mint-light);
+}
+
+/* Stat name style. Small and soft, with round corners on the left. */
+.session .statName {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--green-soft);
+    text-align: left;
+    border-radius: 14px 0 0 14px;
+}
+
+/* Stat number style. Bold and clear, with round corners on the right. */
+.session p:not(.statName) {
+    font-weight: 700;
+    color: var(--green-dark);
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+    border-radius: 0 14px 14px 0;
+}
+
+/* Empty stat shows a soft dash until it has a number. */
+.session p:not(.statName):empty::before {
+    content: "–";
+    opacity: 0.5;
+}
+
+/* Solves list text style. */
+#solveTime {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--green-text);
+    text-align: left;
+    scrollbar-width: thin;
+    scrollbar-color: var(--green) transparent;
 }
