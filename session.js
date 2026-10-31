@@ -1,3 +1,5 @@
+// HTML Elements Access.
+
 const solveTime = document.getElementById("solveTime");
 const bestTime = document.getElementById("bestTime");
 const meanTime = document.getElementById("meanTime");
@@ -5,36 +7,35 @@ const Ao5Time = document.getElementById("Ao5Time");
 const Ao12Time = document.getElementById("Ao12Time");
 const Ao50Time = document.getElementById("Ao50Time");
 const Ao100Time = document.getElementById("Ao100Time");
+const deleteLastSolve = document.getElementById("deleteLastSolve");
+const deleteAllSolve = document.getElementById("deleteAllSolve");
+const specificSolve = document.getElementById("specificSolve");
+
+// Solves Storing Variables (Temporary).
 
 let timeReceiver = 0;
 let timeBuffer = timeReceiver;
 let timeOriginal = [];
 let timeReadable = [];
+let selectedSolve = "";
 
-// Session Time Manager.
-function timesManager() {
-  timeOriginal.push(timeReceiver);
-  timeBuffer = timeReceiver;
-  timeConverter();
-  timeFormat();
-  timeDisplay();
-  statsBest();
-  statsMean();
-  statsAo5();
-  statsAo12();
-  statsAo50();
-  statsAo100();
-}
+// Stats Storing Variables (Temporary).
 
-//Session Time Converter.
+let best = 0;
+let mean = 0;
+let ao5 = 0;
+let ao12 = 0;
+let Ao50 = 0;
+let Ao100 = 0;
+
+// Solves Conversion Tools.
+
 function timeConverter() {
   let minute = Math.floor(timeBuffer / 60000);
   let second = Math.floor(timeBuffer / 1000) % 60;
   let hundredth = Math.floor((timeBuffer % 1000) / 10);
   return { minute, second, hundredth };
 }
-
-//Session Time Format.
 function timeFormat() {
   let { minute, second, hundredth } = timeConverter();
   if (minute >= 1) {
@@ -50,14 +51,8 @@ function timeFormat() {
   }
 }
 
-//Session Time Display.
-function timeDisplay() {
-  timeReadable.push(timeBuffer);
-  solveTime.textContent = timeReadable.join(" ");
-}
+// Solves Stats Calculator.
 
-//Session Best Time Calculator.
-let best = 0;
 function statsBest() {
   let lowest = Math.min(...timeOriginal);
   timeBuffer = lowest;
@@ -65,9 +60,6 @@ function statsBest() {
   best = timeBuffer;
   bestTime.textContent = best;
 }
-
-// Session Mean Time Calculator.
-let mean = 0;
 function statsMean() {
   let allSolve = 0;
   for (let i = 0; i < timeOriginal.length; i++) {
@@ -78,9 +70,6 @@ function statsMean() {
   mean = timeBuffer;
   meanTime.textContent = mean;
 }
-
-//Session Ao5 Time Calculator.
-let ao5 = 0;
 function statsAo5() {
   let lastFive = timeOriginal.slice(-5);
   if (lastFive.length === 5) {
@@ -96,11 +85,10 @@ function statsAo5() {
     timeFormat();
     ao5 = timeBuffer;
     Ao5Time.textContent = ao5;
+  } else {
+    Ao5Time.textContent = "Not Available";
   }
 }
-
-//Session Ao12 Time Calculator.
-let ao12 = 0;
 function statsAo12() {
   let lastTwelve = timeOriginal.slice(-12);
   if (lastTwelve.length === 12) {
@@ -123,11 +111,10 @@ function statsAo12() {
     timeFormat();
     ao12 = timeBuffer;
     Ao12Time.textContent = ao12;
+  } else {
+    Ao12Time.textContent = "Not Available";
   }
 }
-
-//Session Ao50 Time Calculator.
-let Ao50 = 0;
 function statsAo50() {
   let lastFifty = timeOriginal.slice(-50);
   if (lastFifty.length === 50) {
@@ -145,11 +132,10 @@ function statsAo50() {
     timeFormat();
     Ao50 = timeBuffer;
     Ao50Time.textContent = Ao50;
+  } else {
+    Ao50Time.textContent = "Not Available";
   }
 }
-
-//Session Ao100 Time Calculator.
-let Ao100 = 0;
 function statsAo100() {
   let lastOneHundred = timeOriginal.slice(-100);
   if (lastOneHundred.length === 100) {
@@ -167,5 +153,165 @@ function statsAo100() {
     timeFormat();
     Ao100 = timeBuffer;
     Ao100Time.textContent = Ao100;
+  } else {
+    Ao100Time.textContent = "Not Available";
   }
 }
+
+// Solves Deletion Code.
+
+function lastSolveDelete() {
+  deleteLastSolve.blur();
+  timeOriginal.pop();
+  timeReadable.pop();
+  localStorage.setItem("timeReadable", JSON.stringify(timeReadable));
+  localStorage.setItem("timeOriginal", JSON.stringify(timeOriginal));
+  timeReadable = JSON.parse(localStorage.getItem("timeReadable"));
+  timeOriginal = JSON.parse(localStorage.getItem("timeOriginal"));
+  if (timeOriginal.length >= 1) {
+    solveTime.textContent = timeReadable.join(" ");
+  } else {
+    solveTime.textContent = "Not Available";
+  }
+  if (timeOriginal.length >= 1) {
+    statsBest();
+  } else {
+    bestTime.textContent = "Not Available";
+  }
+  if (timeOriginal.length >= 1) {
+    statsMean();
+  } else {
+    meanTime.textContent = "Not Available";
+  }
+  statsAo5();
+  statsAo12();
+  statsAo50();
+  statsAo100();
+  clickTime();
+}
+
+function allSolveDelete() {
+  deleteAllSolve.blur();
+  timeOriginal = [];
+  timeReadable = [];
+  localStorage.setItem("timeReadable", JSON.stringify(timeReadable));
+  localStorage.setItem("timeOriginal", JSON.stringify(timeOriginal));
+  timeReadable = JSON.parse(localStorage.getItem("timeReadable"));
+  timeOriginal = JSON.parse(localStorage.getItem("timeOriginal"));
+  if (timeOriginal.length >= 1) {
+    solveTime.textContent = timeReadable.join(" ");
+  } else {
+    solveTime.textContent = "Not Available";
+  }
+  if (timeOriginal.length >= 1) {
+    statsBest();
+  } else {
+    bestTime.textContent = "Not Available";
+  }
+  if (timeOriginal.length >= 1) {
+    statsMean();
+  } else {
+    meanTime.textContent = "Not Available";
+  }
+  statsAo5();
+  statsAo12();
+  statsAo50();
+  statsAo100();
+  clickTime();
+}
+deleteLastSolve.addEventListener("click", lastSolveDelete);
+deleteAllSolve.addEventListener("click", allSolveDelete);
+
+// Individual Solves Access.
+
+function clickTime() {
+  if (timeOriginal.length >= 1) {
+    solveTime.textContent = "";
+  }
+  for (let i = 0; i < timeOriginal.length; i++) {
+    const individualSolve = document.createElement("span");
+    individualSolve.textContent = timeReadable[i];
+    solveTime.appendChild(individualSolve);
+    individualSolve.addEventListener("click", function () {
+      selectedSolve = i;
+      specificSolve.hidden = false;
+    });
+  }
+}
+specificSolve.addEventListener("click", function () {
+  specificSolve.hidden = true;
+  timeOriginal.splice(selectedSolve, 1);
+  timeReadable.splice(selectedSolve, 1);
+  localStorage.setItem("timeReadable", JSON.stringify(timeReadable));
+  localStorage.setItem("timeOriginal", JSON.stringify(timeOriginal));
+  timeReadable = JSON.parse(localStorage.getItem("timeReadable"));
+  timeOriginal = JSON.parse(localStorage.getItem("timeOriginal"));
+  if (timeOriginal.length >= 1) {
+    solveTime.textContent = timeReadable.join(" ");
+  } else {
+    solveTime.textContent = "Not Available";
+  }
+  if (timeOriginal.length >= 1) {
+    statsBest();
+  } else {
+    bestTime.textContent = "Not Available";
+  }
+  if (timeOriginal.length >= 1) {
+    statsMean();
+  } else {
+    meanTime.textContent = "Not Available";
+  }
+  statsAo5();
+  statsAo12();
+  statsAo50();
+  statsAo100();
+  clickTime();
+});
+
+// Session Solves Manager.
+
+function timeManager() {
+  // Storing Current Time.
+  timeOriginal.push(timeReceiver);
+  timeBuffer = timeReceiver;
+  // Displaying Current Time.
+  timeConverter();
+  timeFormat();
+  timeReadable.push(timeBuffer);
+  clickTime();
+  //Displaying Current Stats.
+  statsBest();
+  statsMean();
+  statsAo5();
+  statsAo12();
+  statsAo50();
+  statsAo100();
+  // Storing All Solves.
+  localStorage.setItem("timeReadable", JSON.stringify(timeReadable));
+  localStorage.setItem("timeOriginal", JSON.stringify(timeOriginal));
+}
+
+// Loading Session Storage.
+
+function SolveStorage() {
+  timeReadable = JSON.parse(localStorage.getItem("timeReadable")) || [];
+  timeOriginal = JSON.parse(localStorage.getItem("timeOriginal")) || [];
+  if (timeOriginal.length >= 1) {
+    solveTime.textContent = timeReadable.join(" ");
+  }
+}
+SolveStorage();
+clickTime();
+
+// Previous Stats When Browser Starts.
+
+if (timeOriginal.length >= 1) {
+  statsBest();
+}
+if (timeOriginal.length >= 1) {
+  statsMean();
+}
+statsAo5();
+statsAo12();
+statsAo50();
+statsAo100();
