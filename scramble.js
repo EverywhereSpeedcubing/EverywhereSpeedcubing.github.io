@@ -18,6 +18,7 @@ function makeMove() {
 }
 
 function newScramble() {
+  scrambleButton.blur();
   let scramble = "";
   for (let i = 0; i < 20; i++) {
     scramble += makeMove() + " ";
