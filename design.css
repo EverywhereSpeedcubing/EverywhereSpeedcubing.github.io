@@ -6,7 +6,13 @@
     --green: #1f7a4a;
     --green-hover: #17613a;
     --green-text: #17613a;
-    --green-soft: #2f7050;
+    --green-soft: #265f42;
+    --glass: rgba(255, 255, 255, 0.34);
+    --glass-hover: rgba(255, 255, 255, 0.55);
+    --glass-edge: rgba(255, 255, 255, 0.7);
+    --red: #b9473f;
+    --red-hover: #9f3b34;
+    --red-text: #9b2f2f;
 }
 
 /* Page background, text color, and font. */
@@ -16,9 +22,24 @@ body {
     font-family: ui-rounded, "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Soft green glows behind the page. They give the glass something to blur. */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 12% 16%, rgba(110, 205, 155, 0.55), transparent 42%),
+        radial-gradient(circle at 90% 10%, rgba(255, 255, 255, 0.75), transparent 36%),
+        radial-gradient(circle at 50% 58%, rgba(255, 255, 255, 0.4), transparent 30%),
+        radial-gradient(circle at 84% 88%, rgba(90, 190, 140, 0.5), transparent 44%),
+        radial-gradient(circle at 10% 92%, rgba(255, 255, 255, 0.65), transparent 38%);
+}
+
 /* Header 1 text style. */
 .headers {
-    font-size: clamp(1.75rem, 5vw, 2.75rem);
+    font-size: clamp(1.4rem, 5.5vw, 2.75rem);
     font-weight: 700;
     letter-spacing: -0.02em;
 }
@@ -38,18 +59,17 @@ body {
     font-size: 1rem;
     font-weight: 600;
     color: var(--green-text);
-    background-color: transparent;
-    border: 2px solid var(--green-text);
+    background-color: var(--mint-light);
+    border: 1px solid rgba(23, 97, 58, 0.35);
     border-radius: 999px;
     cursor: pointer;
-    transition: background-color 0.2s, color 0.2s, transform 0.1s;
+    transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s;
 }
 
 /* Scramble button color when the mouse is on it. Not used on touch screens. */
 @media (hover: hover) {
     #scramblebutton:hover {
-        background-color: var(--green-text);
-        color: #ffffff;
+        background-color: var(--glass-hover);
     }
 }
 
@@ -127,12 +147,6 @@ body {
     border-radius: 0 14px 14px 0;
 }
 
-/* Empty stat shows a soft dash until it has a number. */
-.session p:not(.statName):empty::before {
-    content: "–";
-    opacity: 0.5;
-}
-
 /* Solves list text style. */
 #solveTime {
     font-size: 0.875rem;
@@ -141,4 +155,122 @@ body {
     text-align: left;
     scrollbar-width: thin;
     scrollbar-color: var(--green) transparent;
+}
+
+/* Single solve style. Shows a hand when the mouse is on it. */
+#solveTime span {
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+/* Single solve color when the mouse is on it. Not used on touch screens. */
+@media (hover: hover) {
+    #solveTime span:hover {
+        background-color: rgba(255, 255, 255, 0.7);
+    }
+}
+
+/* Picked solve color. Needs the selected class from JavaScript. */
+#solveTime span.selected {
+    background-color: var(--green);
+    color: #ffffff;
+}
+
+/* Delete All Solve and Delete Last Solve button style. */
+#deleteAllSolve,
+#deleteLastSolve {
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--green-text);
+    background-color: var(--mint-light);
+    border: 1px solid rgba(23, 97, 58, 0.35);
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.2s, color 0.2s, border-color 0.2s, transform 0.1s;
+}
+
+/* Delete buttons turn soft red when the mouse is on them. Not used on touch screens. */
+@media (hover: hover) {
+    #deleteAllSolve:hover,
+    #deleteLastSolve:hover {
+        color: var(--red-text);
+        background-color: rgba(185, 71, 63, 0.14);
+        border-color: rgba(185, 71, 63, 0.5);
+    }
+}
+
+/* Delete buttons press effect. */
+#deleteAllSolve:active,
+#deleteLastSolve:active,
+#specificSolve:active {
+    transform: scale(0.97);
+}
+
+/* Delete buttons outline when using the keyboard. */
+#deleteAllSolve:focus-visible,
+#deleteLastSolve:focus-visible,
+#specificSolve:focus-visible {
+    outline: 3px solid var(--green-dark);
+    outline-offset: 3px;
+}
+
+/* Delete button style. Soft solid red, because it is the final step. */
+#specificSolve {
+    font-family: inherit;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #ffffff;
+    background-color: var(--red);
+    border: none;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+}
+
+/* Delete button color when the mouse is on it. */
+#specificSolve:hover {
+    background-color: var(--red-hover);
+}
+
+/* Glass look. Older browsers keep the plain pale boxes above. */
+@supports ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+    .session p,
+    #deleteAllSolve,
+    #deleteLastSolve,
+    #scramblebutton {
+        background-color: var(--glass);
+        -webkit-backdrop-filter: blur(14px) saturate(140%);
+        backdrop-filter: blur(14px) saturate(140%);
+        border: 1px solid var(--glass-edge);
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    }
+
+    /* Each stat stays one piece. The name and number boxes share one edge. */
+    .session .statName {
+        border-right: none;
+    }
+
+    .session p:not(.statName) {
+        border-left: none;
+    }
+
+    /* Buttons float a little above the page. */
+    #deleteAllSolve,
+    #deleteLastSolve,
+    #scramblebutton {
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.6), 0 6px 18px rgba(18, 56, 42, 0.1);
+    }
+}
+
+/* Phones: smaller stat text, so Not Available fits better, and a tighter scramble. */
+@media (max-width: 520px) {
+    .session p:not(.statName) {
+        font-size: 0.8rem;
+    }
+
+    #scramble {
+        line-height: 1.5;
+    }
 }
