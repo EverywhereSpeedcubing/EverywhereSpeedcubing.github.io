@@ -76,12 +76,13 @@ body {
 
 /* Session alignment. Every stat is a name box and a number box side by side. */
 .session {
+    --space: 10px;
     width: 100%;
     max-width: 640px;
     padding: 8px 0;
     display: grid;
     grid-template-columns: repeat(3, 4.5rem 1fr);
-    gap: 10px;
+    gap: var(--space);
 }
 
 /* Session boxes spacing. */
@@ -97,8 +98,8 @@ body {
 
 /* Stat number box spacing. It is the right half and reaches left to touch the name box. */
 .session p:not(.statName) {
-    margin-left: -11px;
-    padding-left: 15px;
+    margin-left: calc(var(--space) * -1);
+    padding-left: 6px;
 }
 
 /* Solves name box spacing. Lines up with the first line of the list. */
@@ -106,21 +107,52 @@ body {
     padding-top: 10px;
 }
 
-/* Solves list box. It scrolls inside itself and stays on the newest solves. */
+/* Best always starts a new row, so it never jumps into the free Delete slot. */
+.session p:nth-of-type(3) {
+    grid-column: 1;
+}
+
+/* Solves list box. The solves sit side by side, and the box scrolls inside itself. */
 #solveTime {
     grid-column: 2 / -1;
     height: 5.25rem;
-    padding: 10px 14px 10px 15px;
+    padding: 10px 14px;
     display: flex;
-    flex-direction: column-reverse;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    gap: 4px 6px;
     overflow-y: auto;
     overflow-wrap: anywhere;
 }
 
-/* Solves list spacer. Keeps the text at the top of the box. */
-#solveTime::before {
-    content: "";
-    flex: 1 1 0;
+/* Single solve spacing. */
+#solveTime span {
+    padding: 0 8px;
+}
+
+/* Delete buttons size. */
+.session button {
+    padding: 8px 10px;
+}
+
+/* Delete All Solve button place. First slot of the row. */
+#deleteAllSolve {
+    grid-column: 1 / 3;
+}
+
+/* Delete Last Solve button place. Second slot of the row. */
+#deleteLastSolve {
+    grid-column: 3 / 5;
+}
+
+/* Delete button place. Third slot, kept free until a solve is picked. */
+#specificSolve {
+    grid-column: 5 / 7;
+}
+
+/* Hidden buttons stay hidden. */
+.session [hidden] {
+    display: none;
 }
 
 /* Smaller spacing on short screens, so everything fits without scrolling. */
@@ -135,26 +167,39 @@ body {
 
     .scramble {
         padding: 4px 0;
-        gap: 10px;
+        gap: 8px;
     }
 
     .timer {
-        gap: 16px;
+        gap: 12px;
     }
 
     .session {
+        --space: 8px;
         padding: 4px 0;
-        gap: 8px;
     }
 
     #solveTime {
         height: 4.5rem;
     }
+
+    .session button {
+        padding: 6px 10px;
+    }
 }
 
-/* Phones: 2 stats per row. */
+/* Phones: 2 stats per row. The Delete button gets its own row when it shows. */
 @media (max-width: 520px) {
     .session {
         grid-template-columns: repeat(2, 4rem 1fr);
+    }
+
+    .session p {
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    #specificSolve {
+        grid-column: 1 / -1;
     }
 }
