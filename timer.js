@@ -31,7 +31,7 @@ function timerCode() {
     timerButton.textContent = "Stop";
   } else {
     timeReceiver = Date.now() - startTime; // Copying the time.
-    timesManager();
+    timeManager();
     newScramble();
     clearInterval(intervalId);
     intervalId = null;
